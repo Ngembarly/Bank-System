@@ -4,128 +4,164 @@ import java.awt.event.*;
 
 public class BankAccountGUI extends JFrame implements ActionListener {
 
-    String accountNumber = "";
-    String accountName = "";
-    double balance = 0;
+    // Private attributes
+    private String accountNumber;
+    private String accountHolder;
+    private double balance;
 
-    JTextField txtAccNum, txtAccName, txtAmount;
+    // Components
+    JTextField txtAccNum, txtAccHolder, txtAmount, txtStartBalance;
     JTextArea area;
 
-    JButton btnCreate, btnDeposit, btnWithdraw, btnBalance, btnClear;
+    JButton btnCreate, btnDeposit, btnWithdraw, btnDetails, btnClear;
 
+    // Constructor for GUI
     public BankAccountGUI() {
 
-        setTitle("Simple Bank System");
-        setSize(520, 600);
+        setTitle("JAVAWOCKEEZ BANK SYSTEM");
+        setSize(550, 620);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
+        setLocationRelativeTo(null);
 
-        JLabel title = new JLabel("SIMPLE BANKING SYSTEM");
-        title.setFont(new Font("Arial", Font.BOLD, 24));
-        title.setBounds(90, 10, 350, 30);
+        JLabel title = new JLabel("WELCOME TO JAVAWOCKEEZ BANK");
+        title.setFont(new Font("Arial", Font.BOLD, 22));
+        title.setBounds(70, 10, 420, 30);
         add(title);
 
         // Account Number
-        JLabel lblAccNum = new JLabel("Account Number:");
-        lblAccNum.setBounds(30, 60, 120, 25);
-        add(lblAccNum);
+        JLabel lbl1 = new JLabel("Account Number:");
+        lbl1.setBounds(30, 60, 130, 25);
+        add(lbl1);
 
         txtAccNum = new JTextField();
-        txtAccNum.setBounds(160, 60, 250, 25);
+        txtAccNum.setBounds(180, 60, 250, 25);
         add(txtAccNum);
 
-        // Account Name
-        JLabel lblAccName = new JLabel("Account Name:");
-        lblAccName.setBounds(30, 95, 120, 25);
-        add(lblAccName);
+        // Account Holder
+        JLabel lbl2 = new JLabel("Account Holder:");
+        lbl2.setBounds(30, 95, 130, 25);
+        add(lbl2);
 
-        txtAccName = new JTextField();
-        txtAccName.setBounds(160, 95, 250, 25);
-        add(txtAccName);
+        txtAccHolder = new JTextField();
+        txtAccHolder.setBounds(180, 95, 250, 25);
+        add(txtAccHolder);
+
+        // Starting Balance
+        JLabel lbl3 = new JLabel("Starting Balance:");
+        lbl3.setBounds(30, 130, 130, 25);
+        add(lbl3);
+
+        txtStartBalance = new JTextField();
+        txtStartBalance.setBounds(180, 130, 250, 25);
+        add(txtStartBalance);
 
         // Amount
-        JLabel lblAmount = new JLabel("Amount:");
-        lblAmount.setBounds(30, 130, 120, 25);
-        add(lblAmount);
+        JLabel lbl4 = new JLabel("Transaction Amount:");
+        lbl4.setBounds(30, 165, 140, 25);
+        add(lbl4);
 
         txtAmount = new JTextField();
-        txtAmount.setBounds(160, 130, 250, 25);
+        txtAmount.setBounds(180, 165, 250, 25);
         add(txtAmount);
 
-        // Create Button (separate row)
+        // Buttons
         btnCreate = new JButton("Create Account");
-        btnCreate.setBounds(160, 170, 160, 30);
+        btnCreate.setBounds(170, 210, 160, 30);
         add(btnCreate);
 
-        // Transaction Buttons
         btnDeposit = new JButton("Deposit");
-        btnDeposit.setBounds(30, 220, 110, 30);
+        btnDeposit.setBounds(30, 260, 110, 30);
         add(btnDeposit);
 
         btnWithdraw = new JButton("Withdraw");
-        btnWithdraw.setBounds(150, 220, 110, 30);
+        btnWithdraw.setBounds(150, 260, 110, 30);
         add(btnWithdraw);
 
-        btnBalance = new JButton("Check Balance");
-        btnBalance.setBounds(270, 220, 130, 30);
-        add(btnBalance);
+        btnDetails = new JButton("Account Info");
+        btnDetails.setBounds(270, 260, 130, 30);
+        add(btnDetails);
 
         btnClear = new JButton("Clear");
-        btnClear.setBounds(410, 220, 80, 30);
+        btnClear.setBounds(410, 260, 80, 30);
         add(btnClear);
 
-        // Output Area
+        // Text Area
         area = new JTextArea();
         area.setEditable(false);
 
         JScrollPane scroll = new JScrollPane(area);
-        scroll.setBounds(30, 270, 460, 250);
+        scroll.setBounds(30, 320, 460, 220);
         add(scroll);
 
         // Actions
         btnCreate.addActionListener(this);
         btnDeposit.addActionListener(this);
         btnWithdraw.addActionListener(this);
-        btnBalance.addActionListener(this);
+        btnDetails.addActionListener(this);
         btnClear.addActionListener(this);
 
         setVisible(true);
     }
 
-    public void deposit(double amount) {
-        balance += amount;
-        area.append("Deposited: ₱" + amount + "\n");
+    // Constructor for Bank Account Object
+    public BankAccountGUI(String accountNumber, String accountHolder, double balance) {
+        this.accountNumber = accountNumber;
+        this.accountHolder = accountHolder;
+        this.balance = balance;
     }
 
-    public void withdraw(double amount) {
-        if (amount <= balance) {
-            balance -= amount;
-            area.append("Withdrawn: ₱" + amount + "\n");
+    // Deposit Method
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            area.append("Deposit successful: ₱" + amount + "\n");
+            area.append("Updated Balance: ₱" + balance + "\n\n");
         } else {
-            area.append("Insufficient Balance!\n");
+            area.append("Invalid deposit amount.\n\n");
         }
     }
 
-    public void displayBalance() {
-        area.append("\n===== ACCOUNT SUMMARY =====\n");
-        area.append("Account Number: " + accountNumber + "\n");
-        area.append("Account Name: " + accountName + "\n");
-        area.append("Current Balance: ₱" + balance + "\n\n");
+    // Withdraw Method
+    public void withdraw(double amount) {
+        if (amount <= 0) {
+            area.append("Invalid withdrawal amount.\n\n");
+        } else if (amount > balance) {
+            area.append("Transaction failed: Insufficient balance.\n\n");
+        } else {
+            balance -= amount;
+            area.append("Withdrawal successful: ₱" + amount + "\n");
+            area.append("Updated Balance: ₱" + balance + "\n\n");
+        }
     }
 
+    // Display Details Method
+    public void displayAccountDetails() {
+        area.append("================================\n");
+        area.append("       BANK ACCOUNT INFO\n");
+        area.append("================================\n");
+        area.append("Account Number : " + accountNumber + "\n");
+        area.append("Account Holder : " + accountHolder + "\n");
+        area.append("Remaining Balance : ₱" + balance + "\n");
+        area.append("================================\n\n");
+    }
+
+    // Button Actions
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == btnCreate) {
+            try {
+                accountNumber = txtAccNum.getText();
+                accountHolder = txtAccHolder.getText();
+                balance = Double.parseDouble(txtStartBalance.getText());
 
-            accountNumber = txtAccNum.getText();
-            accountName = txtAccName.getText();
-            balance = 0;
+                area.setText("");
+                area.append("Account created successfully!\n");
+                area.append("Welcome, " + accountHolder + "\n\n");
 
-            area.setText("");
-            area.append("Account Created Successfully!\n");
-            area.append("Account Number: " + accountNumber + "\n");
-            area.append("Account Name: " + accountName + "\n");
-            area.append("Balance: ₱0.0\n\n");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Enter valid inputs.");
+            }
         }
 
         if (e.getSource() == btnDeposit) {
@@ -148,11 +184,14 @@ public class BankAccountGUI extends JFrame implements ActionListener {
             }
         }
 
-        if (e.getSource() == btnBalance) {
-            displayBalance();
+        if (e.getSource() == btnDetails) {
+            displayAccountDetails();
         }
 
         if (e.getSource() == btnClear) {
+            txtAccNum.setText("");
+            txtAccHolder.setText("");
+            txtStartBalance.setText("");
             txtAmount.setText("");
             area.setText("");
         }

@@ -2,79 +2,81 @@ import java.util.Scanner;
 
 public class BankAccount {
 
-  // Attributes
-  String accountNumber;
-  String accountName;
-  double balance;
+    // Private attributes
+    private String accountNumber;
+    private String accountHolder;
+    private double balance;
 
-  // Deposit Method
-  void deposit(double amount) {
-    balance = balance + amount;
-    System.out.println(">> Deposited: ₱" + amount);
-  }
-
-  // Withdraw Method
-  void withdraw(double amount) {
-    if (amount <= balance) {
-      balance = balance - amount;
-      System.out.println(">> Withdrawn: ₱" + amount);
-    } else {
-      System.out.println(">> Insufficient Balance!");
+    // Constructor
+    public BankAccount(String accountNumber, String accountHolder, double balance) {
+        this.accountNumber = accountNumber;
+        this.accountHolder = accountHolder;
+        this.balance = balance;
     }
-  }
 
-  // Display Balance Method
-  void displayBalance() {
-    System.out.println("\n==============================");
-    System.out.println("      ACCOUNT SUMMARY");
-    System.out.println("==============================");
-    System.out.println("Account Number : " + accountNumber);
-    System.out.println("Account Name   : " + accountName);
-    System.out.println("Final Balance  : ₱" + balance);
-    System.out.println("==============================");
-  }
+    // Deposit method
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposit successful: ₱" + amount);
+            System.out.println("Updated Balance: ₱" + balance);
+        } else {
+            System.out.println("Invalid deposit amount.");
+        }
+    }
 
-  // Main Method
-  public static void main(String[] args) {
+    // Withdraw method
+    public void withdraw(double amount) {
+        if (amount <= 0) {
+            System.out.println("Invalid withdrawal amount.");
+        } else if (amount > balance) {
+            System.out.println("Transaction failed: Insufficient balance.");
+        } else {
+            balance -= amount;
+            System.out.println("Withdrawal successful: ₱" + amount);
+            System.out.println("Updated Balance: ₱" + balance);
+        }
+    }
 
-    Scanner input = new Scanner(System.in);
+    // Display account details
+    public void displayAccountDetails() {
+        System.out.println("\n================================");
+        System.out.println("        BANK ACCOUNT INFO");
+        System.out.println("================================");
+        System.out.println("Account Number : " + accountNumber);
+        System.out.println("Account Holder : " + accountHolder);
+        System.out.println("Remaining Balance : ₱" + balance);
+        System.out.println("================================");
+    }
 
-    BankAccount acct = new BankAccount();
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-    System.out.println("=================================");
-    System.out.println("      SIMPLE BANK SYSTEM");
-    System.out.println("=================================");
+        System.out.println("================================");
+        System.out.println("     WELCOME TO JAVAWOCKEEZ BANK");
+        System.out.println("================================");
 
-    // Input Account Details
-    System.out.print("Enter Account Number: ");
-    acct.accountNumber = input.nextLine();
+        System.out.print("Enter Account Number: ");
+        String accNum = scanner.nextLine();
 
-    System.out.print("Enter Account Name: ");
-    acct.accountName = input.nextLine();
+        System.out.print("Enter Account Holder Name: ");
+        String accHolder = scanner.nextLine();
 
-    System.out.print("Enter Initial Balance: ₱");
-    acct.balance = input.nextDouble();
+        System.out.print("Enter Starting Balance: ₱");
+        double startingBalance = scanner.nextDouble();
 
-    // First Deposit
-    System.out.print("\nEnter First Deposit Amount: ₱");
-    double dep1 = input.nextDouble();
-    acct.deposit(dep1);
+        BankAccount myAccount = new BankAccount(accNum, accHolder, startingBalance);
 
-    // Second Deposit
-    System.out.print("Enter Second Deposit Amount: ₱");
-    double dep2 = input.nextDouble();
-    acct.deposit(dep2);
+        System.out.print("\nEnter amount to deposit: ₱");
+        double depositAmount = scanner.nextDouble();
+        myAccount.deposit(depositAmount);
 
-    // Withdrawal
-    System.out.print("Enter Withdrawal Amount: ₱");
-    double wd = input.nextDouble();
-    acct.withdraw(wd);
+        System.out.print("\nEnter amount to withdraw: ₱");
+        double withdrawAmount = scanner.nextDouble();
+        myAccount.withdraw(withdrawAmount);
 
-    // Display Final Balance
-    acct.displayBalance();
+        myAccount.displayAccountDetails();
 
-    input.close();
-  }
+        scanner.close();
+    }
 }
-//testing mictest
-//please continue here and add suggestions
