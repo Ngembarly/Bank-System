@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class BankAccount {
+public class BankSystem {
 
     // Private attributes
     private String accountNumber;
@@ -8,7 +8,7 @@ public class BankAccount {
     private double balance;
 
     // Constructor
-    public BankAccount(String accountNumber, String accountHolder, double balance) {
+    public BankSystem(String accountNumber, String accountHolder, double balance) {
         this.accountNumber = accountNumber;
         this.accountHolder = accountHolder;
         this.balance = balance;
@@ -72,7 +72,7 @@ public class BankAccount {
         double startingBalance = scanner.nextDouble();
 
         // Create object
-        BankAccount myAccount = new BankAccount(accNum, accHolder, startingBalance);
+        BankSystem myAccount = new BankSystem(accNum, accHolder, startingBalance);
 
         boolean continueTransaction = true;
 
